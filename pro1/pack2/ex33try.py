@@ -12,8 +12,6 @@ try:    # 실행문(예외 발생 가능 구문)
     print(aa[0])
     # print(aa[3])
 
-    open("c:/work/abc.txt")
-
 except ZeroDivisionError:   # 예외 종류 관련 클래스
     print('두번째 값은 0이 안됨')   # 예외 발생 처리 구문
 except IndexError as e:     # as ~ 변수 : 에러 종류를 별명으로 저장하고 출력
