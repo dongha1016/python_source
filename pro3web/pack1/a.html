@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+Tag: 문서의 구조와 형태를 표현하는 명령어로 <>안에 적는다.<br>     
+aaa                             bbb             ccc
+<!--아무리 글자를 띄울라고 해도 한줄 밖에 떨어지지 않음-->
+<b>good</b><br>
+aaa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bbb ccc<br>
+<!-- &nbsp: 공백 한칸 -->>
+-- 출력 형태에 따른 태그 종류 --<br>
+1) Block 방식 : 새로운 행 분리가 이루어짐 - p, h, div, ol, li...<br>
+2) inline 방식 : 같은 행에 계속 출력 - b, i, span...<br>
+<hr> <!-- 수평선 그어짐 -->
+<p><b>문단나누기 </b></p>
+<!-- <p></p> : 라인 스킵 -->
+<i>표제용 태그</i> 
+<!--글자 기울이기-->
+작업계속
+<h1>표제용 제목 가장 큼</h1>
+<h6>표제용 제목 가장 큼</h6>
+<!-- <h6></h6> : 글자 크기 및 굵기 설정 -->
+<div style="background-color: yellow;">구역 설정 태그(행 전체)</div>
+<span style="background-color: silver;">구역 설정 태그(일부 영역)</span>
+<b>&lt;하하하&gt;</b><br>
+<!--특수 문자 표시--> 
+<hr size="10" width="200" color = "blue">
+<!-- tag에 속성 부여 --> 
+<hr width="60%" color = "#00ff00">
+<!--두께는 숫자를 통해 고정할 수도 있고 비율을 넣어줄 수도 있음-->
+<!--비율을 정하는 것을 통해 반응형 웹을 만들 수 있음(ex. 모바일 전용)-->
+
+<pre>
+내가     입력한    
+      대로     그 대   로 
+        보   여  줘
+
+</pre><br>
+<!--입력한 그래도 보이게 하는 태그-->
+-- 목록만들기 -- <br>
+<ul>
+    <li>파이썬</li>
+    <li>마리아DB</li>
+</ul>
+<ol>
+    <li>파이썬</li>
+    <li>마리아DB</li>
+    <ul>
+    <li>파이썬</li>
+    <li>마리아DB</li>
+    </ul>
+</ol>
+<!--리스트를 만들되 <ul>은 숫자 없이, <ol>은 숫자를 통해 리스트화-->
+
+</body>
+</html>

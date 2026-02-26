@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+--- table(표) tag ---<br>
+<table border="1">
+    <!--선의 굵기를 설정-->
+    <tr>
+        <th>번호</th><th>이름</th><th>주소</th>
+        <!--가운데 맞춤하면서 굵게 만듬-->
+    </tr>
+    <tr>
+        <th width="100">1</th><td>가나다</td><td>강남구 역삼동</td>
+    </tr>
+    <tr>
+        <th>2</th><td></td><td></td>
+    </tr>
+</table>
+<br>
+--- 셀병합 ---<br>
+<table border="1" width="200">
+    <tr>
+        <td colspan="2">a</td>
+        <td>b</td>
+        <td rowspan="2">c</td>
+    </tr>
+    <tr>
+        <td>d</td>
+        <td>cell(셀)</td>
+        <td>
+            <table border="2">
+                <tr>
+                    <td>kor</td>
+                    <td>eng</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<hr>
+form 태그(자료 입력용 태그)
+<form method="get">
+    1. 이름 : <input type="text" name="name" id="irum" 
+                value="이기자" size="30" readonly><br><br>
+    2. 비밀번호 : <input type="password" name="pwd">
+    <br>
+    <br>
+    3. 메세지 : <textarea name="msg" cols="50" rows="5">멀티라인 텍스트 박스</textarea><br>
+    <br><br>
+    4. 학년 : <input type="radio" name="hak" value="1" checked> 1학년
+            <input type="radio" name="hak" value="1"> 2학년 |
+            <input type="radio" name="hak2" value="1"> 3학년
+            <input type="radio" name="hak2" value="1"> 4학년
+            <br>
+            <br>
+    5. 과목 :   <input type="checkbox" name="gwa" value="python"> 파이썬&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" name="gwa" value="c"> C언어&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" name="gwa" value="java"> 자바<br><br>
+            <!--radio는 하나만 체크가능, checkbox는 하나만 체크 가능-->
+    6. 지역 :   <select name="addr" multiple>
+                <!-- <select name="addr" multiple> : 중복 체크 가능 -->
+                    <option value="c" selected>시청</option>
+                    <option value="j" selected>종로</option>
+                    <option value="k" selected>강남</option>
+                </select> 
+                <br>
+                <br>
+    7. <input type="file" name="fname"> <br><br>
+    8. 숨김 : <input type="hidden" name="ji" value="대한민국" >
+            <!-- 데이터를 보내는데 자료를 숨기고 싶은 경우 hidden 활용 -->
+    <br><br>
+    <input type="submit" value="전송 확인">
+    <input type="reset" value="입력 취소"> 
+    <!-- 기존에 입력한 값에 대해 초기화 -->
+</form>
+</body>
+</html>

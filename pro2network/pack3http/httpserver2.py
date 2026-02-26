@@ -11,7 +11,7 @@ class Handler(CGIHTTPRequestHandler):
     cgi_directories = ['/cgi-bin']
 
 def run():
-    serv = HTTPServer(('192.168.0.14', PORT), Handler)
+    serv = HTTPServer(('127.0.0.1', PORT), Handler)
 
     print('웹서비스 진행중...')
     try:

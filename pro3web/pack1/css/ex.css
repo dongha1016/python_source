@@ -1,0 +1,27 @@
+/* css 파일의 주석 */
+
+#myid2{
+    background-color: yellow;
+    color: rebeccapurple;
+    font-size: 20px;
+}
+
+/* 동적 선택자 */
+/* input:focus{background-color: darkgreen;} */
+input:focus{background-color: rgb(255,255,0);}
+input:focus{background-color: rgb(30%,71%,80%);}
+
+a:link{text-decoration: none;}
+/* 밑줄 사라지게 하는것(데코 삭제) */
+a:hover{color : orange; font-size: 30px;}
+/* 하이퍼링크에 커서를 갖다댈 때 확대되는 것 */
+
+/* 선택 연습 */ 
+b{font-size: 8px;}
+/* b tag에 걸린 건 다 8픽셀로 변경됨 */
+div b{font-size: 16px;}
+/* div tag 안에 자손들 모두 */
+div > b{font-size: 20px; color: blue;}
+/* div tag 의 직계자식 모두 */
+div b#hi{font-size: 24px;}
+div b.hello{font-size: 34px;}
