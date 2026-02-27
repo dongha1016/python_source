@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>💕 발렌타인 럭키드로우</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Noto+Serif+KR:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #1a0010;
+      --surface: #2a0020;
+      --rose: #FF1A6E;
+      --pink: #FF6BA8;
+      --gold: #FFD700;
+      --cream: #FFF0F5;
+      --glow: rgba(255,26,110,0.4);
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      font-family: 'Noto Serif KR', serif;
+      color: var(--cream);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* 배경 파티클 하트 */
+    .hearts-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      overflow: hidden;
+    }
+    .heart-float {
+      position: absolute;
+      bottom: -60px;
+      font-size: 1.5rem;
+      animation: floatUp linear infinite;
+      opacity: 0;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) rotate(-15deg); opacity: 0.6; }
+      100% { transform: translateY(-110vh) rotate(15deg); opacity: 0; }
+    }
+
+    .container {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      max-width: 540px;
+      width: 100%;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 3rem);
+      color: var(--pink);
+      text-shadow: 0 0 30px var(--glow);
+      margin-bottom: 0.3rem;
+    }
+    .subtitle {
+      font-style: italic;
+      color: var(--pink);
+      opacity: 0.7;
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* 공 머신 */
+    .machine {
+      background: linear-gradient(160deg, #2d0025, #1a0010);
+      border: 2px solid rgba(255,107,168,0.3);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 0 60px rgba(255,26,110,0.15), inset 0 1px 0 rgba(255,255,255,0.05);
+      margin-bottom: 2rem;
+    }
+
+    /* 공 디스플레이 */
+    .ball-stage {
+      height: 180px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.8rem;
+    }
+
+    .ball {
+      width: 130px; height: 130px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #ff8ab8, #cc0054);
+      box-shadow: 0 8px 30px rgba(255,26,110,0.5), inset 0 -8px 20px rgba(0,0,0,0.3), inset 4px 4px 10px rgba(255,255,255,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem; font-weight: 700;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      transition: transform 0.2s;
+      cursor: default;
+      position: relative;
+    }
+    .ball::after {
+      content: '';
+      position: absolute;
+      top: 14px; left: 20px;
+      width: 30px; height: 18px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      transform: rotate(-30deg);
+      filter: blur(3px);
+    }
+    .ball.idle {
+      animation: idleBob 3s ease-in-out infinite;
+    }
+    @keyframes idleBob {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    .ball.spinning {
+      animation: spin 0.4s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg) scale(1.05); }
+    }
+    .ball.reveal {
+      animation: revealPop 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    }
+    @keyframes revealPop {
+      0%   { transform: scale(0.5) rotate(-180deg); opacity:0; }
+      100% { transform: scale(1) rotate(0deg); opacity:1; }
+    }
+
+    /* 버튼 */
+    #drawBtn {
+      background: linear-gradient(135deg, var(--rose), #c40059);
+      border: none; border-radius: 50px;
+      padding: 1rem 3rem;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1.1rem; font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(255,26,110,0.5);
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+    #drawBtn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(255,26,110,0.65);
+    }
+    #drawBtn:active:not(:disabled) { transform: scale(0.97); }
+    #drawBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* 결과 카드 */
+    #result {
+      background: linear-gradient(135deg, #2d0025, #1f0018);
+      border: 1px solid rgba(255,215,0,0.3);
+      border-radius: 20px;
+      padding: 1.8rem;
+      margin-top: 1.5rem;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.5s, transform 0.5s;
+      display: none;
+    }
+    #result.show {
+      opacity: 1; transform: translateY(0); display: block;
+    }
+
+    .grade-badge {
+      display: inline-block;
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.8rem;
+    }
+    .grade-S { background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a0010; }
+    .grade-A { background: linear-gradient(135deg, #FF6BA8, #FF1A6E); color: #fff; }
+    .grade-B { background: linear-gradient(135deg, #9b59b6, #6c3483); color: #fff; }
+    .grade-C { background: linear-gradient(135deg, #555, #333); color: #ccc; }
+
+    .gift-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--cream);
+      margin-bottom: 0.4rem;
+    }
+    .ball-num-text {
+      font-size: 0.85rem;
+      color: rgba(255,240,245,0.5);
+    }
+
+    /* 반짝이 효과 */
+    .sparkles { position: fixed; inset: 0; pointer-events: none; z-index: 99; }
+    .sparkle {
+      position: absolute;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      animation: sparkleAnim 0.8s ease-out forwards;
+    }
+    @keyframes sparkleAnim {
+      0%   { transform: translate(0,0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+    }
+
+    /* 공 목록 */
+    details {
+      margin-top: 2rem;
+      text-align: left;
+    }
+    summary {
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: rgba(255,107,168,0.6);
+      list-style: none;
+      text-align: center;
+      padding: 0.4rem;
+    }
+    summary:hover { color: var(--pink); }
+    .gift-list {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+    .gift-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px;
+      padding: 0.5rem 0.7rem;
+      font-size: 0.78rem;
+    }
+    .gift-item .num { color: var(--pink); font-weight: 600; margin-right: 4px; }
+  </style>
+</head>
+<body>
+
+<div class="hearts-bg" id="heartsBg"></div>
+<div class="sparkles" id="sparkles"></div>
+
+<div class="container">
+  <h1>💕 Valentine Draw</h1>
+  <p class="subtitle">공을 뽑아 당신의 선물을 확인하세요</p>
+
+  <div class="machine">
+    <div class="ball-stage">
+      <div class="ball idle" id="ball">?</div>
+    </div>
+
+    <button id="drawBtn" onclick="draw()">🎱 공 뽑기</button>
+
+    <div id="result">
+      <div class="grade-badge" id="gradeBadge"></div>
+      <div class="gift-name" id="giftName"></div>
+      <div class="ball-num-text" id="ballNum"></div>
+    </div>
+  </div>
+
+  <details>
+    <summary>📋 선물 목록 보기</summary>
+    <div class="gift-list" id="giftList"></div>
+  </details>
+</div>
+
+<script>
+  // 배경 하트 생성
+  const bg = document.getElementById('heartsBg');
+  const emojis = ['❤️','💕','💗','💝','🌹','💖'];
+  for (let i = 0; i < 18; i++) {
+    const h = document.createElement('span');
+    h.className = 'heart-float';
+    h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.fontSize = (Math.random() * 1.5 + 0.8) + 'rem';
+    h.style.animationDuration = (Math.random() * 10 + 8) + 's';
+    h.style.animationDelay = (Math.random() * 10) + 's';
+    bg.appendChild(h);
+  }
+
+  // 선물 목록 렌더
+  const gifts = {
+    1:"🍫 수제 초콜릿 박스",2:"💐 장미 꽃다발",3:"🧸 곰인형 세트",
+    4:"💌 손편지 + 커플링",5:"🍰 케이크 교환권",6:"☕ 카페 데이트 교환권",
+    7:"🎀 리본 머리띠",8:"🕯️ 로맨틱 캔들",9:"💝 하트 쿠키 세트",
+    10:"🌹 영화관 데이트 교환권"
+  };
+  const gl = document.getElementById('giftList');
+  Object.entries(gifts).forEach(([n, g]) => {
+    gl.innerHTML += `<div class="gift-item"><span class="num">${n}번</span>${g}</div>`;
+  });
+
+  // 반짝이
+  function spawnSparkles(x, y, color) {
+    const sp = document.getElementById('sparkles');
+    for (let i = 0; i < 20; i++) {
+      const s = document.createElement('div');
+      s.className = 'sparkle';
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 60 + Math.random() * 120;
+      s.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+      s.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+      s.style.left = x + 'px'; s.style.top = y + 'px';
+      s.style.background = color || '#FF1A6E';
+      sp.appendChild(s);
+      setTimeout(() => s.remove(), 900);
+    }
+  }
+
+  async function draw() {
+    const btn = document.getElementById('drawBtn');
+    const ball = document.getElementById('ball');
+    const result = document.getElementById('result');
+
+    btn.disabled = true;
+    result.classList.remove('show');
+    result.style.display = 'none';
+
+    // 스피닝
+    ball.className = 'ball spinning';
+    ball.textContent = '?';
+
+    await new Promise(r => setTimeout(r, 1800));
+
+    try {
+      const res = await fetch('/draw');
+      const data = await res.json();
+
+      ball.className = 'ball reveal';
+      ball.textContent = data.ball;
+      ball.style.background = `radial-gradient(circle at 35% 35%, ${data.color}99, ${data.color})`;
+
+      // 반짝이
+      const rect = ball.getBoundingClientRect();
+      spawnSparkles(rect.left + rect.width/2, rect.top + rect.height/2, data.color);
+
+      // 결과 표시
+      setTimeout(() => {
+        document.getElementById('gradeBadge').className = `grade-badge grade-${data.grade}`;
+        document.getElementById('gradeBadge').textContent = `${data.grade === 'S' ? '✨ S등급 SPECIAL' : data.grade === 'A' ? '🌟 A등급' : data.grade === 'B' ? '💫 B등급' : '🎀 C등급'}`;
+        document.getElementById('giftName').textContent = data.gift;
+        document.getElementById('ballNum').textContent = `${data.ball}번 공`;
+        result.style.display = 'block';
+        requestAnimationFrame(() => result.classList.add('show'));
+        btn.disabled = false;
+        btn.textContent = '🎱 다시 뽑기';
+        // 공을 idle로
+        setTimeout(() => { ball.className = 'ball idle'; }, 600);
+      }, 400);
+
+    } catch(e) {
+      ball.className = 'ball idle';
+      ball.textContent = '?';
+      btn.disabled = false;
+    }
+  }
+</script>
+</body>
+</html>
