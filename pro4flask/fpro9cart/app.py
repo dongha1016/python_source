@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-from datetime import timedelta  
 
-app = Flask(__name__)
+from datetime import timedelta
+
+app = Flask(__name__);
 
 app.secret_key = "abcdef123456"
-app.permanent_session_lifetime = timedelta(minutes=5) # 세션 만료
+app.permanent_session_lifetime = timedelta(minutes=5) # 세션 만료 시간 5분 설정
 
 products = [
     {"id":1, "name":"노트북", "price":3500000},
@@ -14,38 +15,68 @@ products = [
 ]
 
 @app.route("/")
-def product_list():
-    return render_template("products.html", products = products)
+def prouduct_list():
+    return render_template('products.html', products=products)
 
 @app.route("/cart")
 def show_cart():
     cart = session.get("cart", {})
-    return render_template("cart.html", cart=cart)
+
+    ### 여기 수정함 ###
+    total = sum(info["price"] * info["qty"] for info in cart.values())
+    return render_template("cart.html", cart=cart, total=total)
 
 @app.route("/add/<int:product_id>")
 def add_to_cart(product_id):
     # print(product_id)
     # 세션 cart가 없으면 빈 dict로 생성
     cart = session.get("cart", {})
-    # next(..., None) : ;묶음형 자료에서 다음값 1개를 꺼내는 함수
+    
+
+    # next(..., None) : 묶음형 자료에서 다음 값 1개를 꺼내는 함수
     # 주문 상품이 product에 기억됨
-    product = next((p for p in products if p["id"]==product_id), None)
+    product = next((p for p in products if p["id"] == product_id), None)
 
     if product is None:
         return "상품을 찾을 수 없어요", 404
-    # 주문 상품이 상품목록에 있는 경우 장바구니 추가
+    
+    # 주문 상품이 상품 목록에 있으면 장바구니에 추가
     item_name = product["name"]
 
     if item_name in cart:
-        cart[item_name]["qty"] += 1     # 카트에 동일상품이 있는 경우 수량만 증가시킴
+        cart[item_name]["qty"] += 1 # 카드에 동일상품이 있는 경우 수량만 증가
     else:
-        cart[item_name] = {"price":product["price"], "qty":1}   
+        cart[item_name] = {"price":product["price"], "qty":1}
         # 카트에 최초 상품일 경우 수량 1(qty 요소(key) 생성)
 
-    session["cart"] = cart   # 변수 cart를 세션 "cart" 키에 값으로 저장
-    session.permanent = True # 5분 만료 적용 
+    session['cart'] = cart  # 변수 cart를 세션 "cart" 키에 값으로 저장
+    session.permanent = True   # 5분 만료 적용
 
-    return redirect(url_for("show_cart"))     # cart에 저장 후 장바구니 보기로 이동 
+    return redirect(url_for("show_cart"))   # 카트에 저장 후 장바구니 보기로 이동
 
-if __name__ == '__main__':
+### 장바구니 부분 삭제 추가 ###
+@app.route("/remove/<item_name>")
+def remove_to_cart(item_name):
+    # session["cart"](세션 키)라는 키로 변수가 가지고 있는 cart(파이썬 변수)라는 값을 줌
+    # 세션에 있는 "cart"를 지워야 함
+
+    # 수정을 위해 cart라는 키의 세션을 읽음
+    cart = session.get("cart")
+
+    # 만약 cart에 item_name이 있으면 삭제
+    if item_name in cart:
+        # cart에서 item_name 삭제
+        del cart[item_name]
+    
+    # cart라는 키의 세션에 지워지고 남은 상품만 남김
+    session['cart'] = cart
+    return redirect(url_for('show_cart'))
+
+### 장바구니 비우기 추가 ###
+@app.route("/clear")
+def clear_cart():
+    session.pop("cart", None)   # 세션에 여러 개의 키 중에서 "cart"라는 키를 삭제
+    return redirect(url_for('show_cart'))
+
+if __name__ == "__main__":
     app.run(debug=True)

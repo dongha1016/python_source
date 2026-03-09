@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>* 상품 정보 *</h2>
+    <!-- 만약 message가 있다면 -->
+    {% if messages %} <!-- flash 메세지 출력 관련 코드 -->
+        <ul>
+            <!-- 메시지 출력 -->
+            {% for m in messages %}
+            <li>{{m}}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <!-- 일관성을 위해 아래 코드보단 위의 코드를 사용 -->
+    <!-- function은 그대로인데 경로만 변경했을 경우 유용(수정하지 않아도 됨) -->
+    <p><a href="{{url_for('add_form')}}">[추가]</a></p>
+    <!-- <p><a href="/add/">[추가]</a></p> -->
+
+    <table border="1">
+        <tr>
+            <th>코드</th><th>상품명</th><th>수량</th><th>단가</th><th>관리</th>
+        </tr>
+        {% for r in rows %}
+        <tr>
+            <td>{{r.code}}</td>
+            <td>{{r.sang}}</td>
+            <td>{{r.su}}</td>
+            <td>{{r.dan}}</td>
+            <td>
+                <!-- <a href="/edit/?code={{r.code}}">수정</a> -->
+                <a href="{{url_for('edit_form', code=r.code)}}">수정</a>
+                <form action="{{url_for('delete_row', code=r.code)}}" method="post"
+                    style="display: inline;" onsubmit="return confirm('정말 삭제할까요?')">
+                    <!-- onsubmit : JS없이 팝업창을 만듦 -->
+                    <button type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

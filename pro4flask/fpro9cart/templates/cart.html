@@ -1,13 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 <h2>* 장바구니 *</h2>
-
 {% if cart %}
 <table border="1">
     <tr>
         <th>상품명</th><th>가격</th><th>수량</th><th>합계</th><th>삭제</th>
     </tr>
-    {% set total = 0 %}
+    <!-- 여기도 삭제하는 내용 있음 -->
     {% for name, info in cart.items() %}
         {% set subtotal = info.price * info.qty %}
         <tr>
@@ -15,15 +14,15 @@
             <td>{{info.price}}</td>
             <td>{{info.qty}}</td>
             <td>{{subtotal}}</td>
-            <td><a href="/remove/{{name}}"> 삭제 </a></td>
+            <td><a href="/remove/{{name}}">삭제</a></td>
         </tr>
-        {% set total = total + subtotal %}
     {% endfor %}
-
 </table>
-<p>총 금액 : {{total}}원</p>
+
+<!-- 여기 수정함 -->
+<p><b>총 금액 : {{ total }}원</b></p>
 <a href="/clear">장바구니 비우기</a>
 {% else %}
-<p>장바구니가 비었습니다.</p>
+<p>장바구니가 비었습니다</p>
 {% endif %}
 {% endblock %}
