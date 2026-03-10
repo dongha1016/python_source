@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+        <button id="loadBtn">상품자료 읽기(axios)</button>
+    <table id="resultTable">
+        
+    </table>
+
+    <script>
+    document.getElementById("loadBtn").addEventListener("click", function() {
+        // 1. 함수 정의
+        async function loadData() {
+            try {
+                const response = await axios.get("/api/sangdata");
+                const data = response.data;
+                const table = document.getElementById("resultTable");
+                table.innerHTML = "";
+
+                if (data.length === 0) {
+                    table.innerHTML = "<tr><td>자료없음</td></tr>";
+                    return;
+                }
+
+                // 헤더 생성
+                let headerRow = "<tr>";
+                Object.keys(data[0]).forEach(key => {
+                    headerRow += `<th>${key}</th>`;
+                });
+                headerRow += "</tr>";
+                table.innerHTML += headerRow;
+
+                // 2. 자료 채우기 (괄호 위치 수정)
+                data.forEach(row => {
+                    let lowHtml = "<tr>";
+                    Object.values(row).forEach(value => {
+                        lowHtml += `<td>${value}</td>`;
+                    }); // value 반복 끝
+                    lowHtml += "</tr>"; // 여기서 닫아야 한 줄이 완성됨
+                    table.innerHTML += lowHtml;
+                }); // row 반복 끝
+
+            } catch (error) {
+                alert("에러 : " + error);
+            }
+        }
+
+        // 3. 정의한 함수를 실제로 호출해야 실행됩니다!
+        loadData();
+    });
+</script>
+</body>
+</html>
