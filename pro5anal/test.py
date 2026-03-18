@@ -27,5 +27,46 @@ a = np.zeros((6,6))
 a = np.arange(1, 37).reshape(6,6)
 print(a)
 
-print(a[1])
-print(a[5], axis = 1)
+print("조건3")
+print(np.array(a[1,:]))
+print(np.array(a[:, 4]))
+print("조건4")
+print(np.array(a[2:5, 2:5]))
+
+print("문제2-2 조건1")
+matrix = np.zeros((6, 4))
+random_starts = np.random.randint(20, 101, 6)
+matrix1 = random_starts.reshape(6, 1)
+incre = np.arange(4)
+# 3. 조건1: 각 행에 1씩 증가하는 값 채우기
+# [0, 1, 2, 3] 형태의 배열을 더해 각 행을 완성
+matrix = matrix1 + incre
+print(matrix)
+
+print("문제2-2 조건2")
+matrix[0] = 1000
+matrix[5] = 6000
+print(matrix)
+
+print("문제3번")
+li = np.random.randn(4, 5)
+print(li)
+print("평균 : ", np.mean(li))
+print("합계 : ", np.sum(li))
+print("표준편차 : ", np.std(li))
+print("분산 : ", np.var(li))
+print("최댓값 : ", np.max(li))
+print("최솟값 : ", np.min(li))
+print("중앙값: ", np.median(li))
+print("1사분위수 : ", np.percentile(li, 25))
+print("2사분위수 : ", np.percentile(li, 50))
+print("3사분위수 : ", np.percentile(li, 75))
+print("요소값 누적합 : ", np.cumsum(li))
+
+print("추가 문제 1번")
+a = np.array([[1], [2], [3]])
+b = np.array([10, 20, 30])
+print(a*b)
+x = (a*b).reshape(1, 9)
+x = list(np.where(x >= 30))
+print(x)
