@@ -8,6 +8,13 @@
 <body>
     <h2>js의 대화상자 관련 함수</h2>
     <script>
+        let hap = 0 
+        const scores = [85, 92, 78, 90, 88];
+
+        for(let i in scores){
+            hap += scores[i]
+        }
+        document.write("총점 : ", hap)
         let irum = "홍길동";
         let tel = "111-1111";
         alert("이름은 " + irum + "\n전화는 " + tel);    // 메시지창 출력

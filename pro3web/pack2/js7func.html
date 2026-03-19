@@ -6,6 +6,13 @@
     <title>Document</title>
     
     <script type = "text/javascript">
+        function func(para){
+            if (para/2 ==0) 
+            document.write("짝수");
+            else document.write("홀수");
+        }
+        console.log(func(4))
+
         function bb(){
             document.write("bb 함수 실행 성공");
             cc(5);  // 함수가 다른 함수 호출 가능 (반환값 무시)
@@ -48,6 +55,20 @@
     함수(function) : 어떤 특별한 목적의 작업을 수행하도록 설계된 독립적 블록{}을 의미
     <br>
     <script>
+        function func(para){
+            if (para%2 ==0) 
+            document.write("짝수");
+            else document.write("홀수");
+        }
+        console.log(func(5))
+
+        function add(para){
+            if (para%2 ==0) 
+            document.write("짝수");
+            else document.write("홀수");
+        }
+        console.log(func(5))
+
         // 내장함수 : js가 기본 지원
         let str = "Java script Language";
         document.write(`<br>str.strcharAt(2) : ${str.charAt(2)}`);
@@ -60,6 +81,14 @@
     <hr>
     사용자 정의 함수 <br>
     <script>
+        function add(a, b){
+            if (b===undefined)
+                b=10;
+            return a+b;
+        }
+        console.log(add(5, 3)); // 8
+        console.log(add(5)); // 15
+
         let count = 0;
         function aa(){  // 함수 선언
             count += 1;

@@ -28,4 +28,4 @@ a = np.arange(1, 37).reshape(6,6)
 print(a)
 
 print(a[1])
-print(a[5], axis = 1)
+print(a[5], )

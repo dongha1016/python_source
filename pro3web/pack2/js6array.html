@@ -11,6 +11,14 @@
     형식 : 배열명 = new Array();
     <hr>
     <script type="text/javascript">
+        let hap = 0 
+        const scores = [85, 92, 78, 90, 88];
+
+        for(i in scores){
+            hap += scores[i]
+        }
+        document.write("총점 : ", hap)
+
         let aa = new Array();   // 크기가 가변적인 배열
         // new Array(3) 도 가능하나 권장 X
         aa[0] = 10; aa[1] = 5.6; aa[3] = "결과는"; aa[4] = "안녕"; aa[5] = true;
