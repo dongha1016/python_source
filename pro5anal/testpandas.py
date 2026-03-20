@@ -36,15 +36,15 @@ print(df.loc[['a', 'd']])
 
 # d) numbers의 합을 구하시오.
 
-sum = df.sum()
+sum = df.numbers.sum()
 print(sum)
 # e) numbers의 값들을 각각 제곱하시오. 아래 결과가 나와야 함.
 
-print(df.mul(df))
+print(df['numbers']**2)
 
 # f) floats 라는 이름의 칼럼을 추가하시오. 값은 1.5, 2.5, 3.5, 4.5    아래 결과가 나와야 함.
 
-df.loc[:, 'floats'] = [1.5, 2.5, 3.5, 4.5]
+df['floats'] = [1.5, 2.5, 3.5, 4.5]
 print(df)
 
 # g) names라는 이름의 다음과 같은 칼럼을 위의 결과에 또 추가하시오. Series 클래스 사용.
@@ -60,12 +60,12 @@ print(df)
 # 1) 5 x 3 형태의 랜덤 정수형 DataFrame을 생성하시오. (범위: 1 이상 20 이하, 난수)
 
 ss = np.random.randint(1, 20, 15).reshape(5,3)
-df = pd.DataFrame(ss)
+df = DataFrame(ss)
 print(df)
 
 # 2) 생성된 DataFrame의 컬럼 이름을 A, B, C로 설정하고, 행 인덱스를 r1, r2, r3, r4, r5로 설정하시오.
 
-df = pd.DataFrame(ss, index = ['r1', 'r2', 'r3', 'r4', 'r5'], columns = ['A', 'B', 'C'])
+df = DataFrame(ss, index = ['r1', 'r2', 'r3', 'r4', 'r5'], columns = ['A', 'B', 'C'])
 print(df)
 
 # 3) A 컬럼의 값이 10보다 큰 행만 출력하시오.
@@ -85,9 +85,8 @@ print("문제 5번")
 #          A     B    C     D
 #   r6   15   10    2   (A+B)
 
-# df6 = DataFrame(data, np.arange(4).reshape(1,4), index = ['r6'], columns = ['A', 'B', 'C', 'D'])
-# df = pd.concat([df, df6], ignore_index=True)
-# print(df)
+df.loc['r6'] = ['15', '10', '2', '25']
+print(df)
 
 
 # pandas 문제 4)
@@ -123,9 +122,17 @@ print(df[df['재고']<=3])
 
 # 5) 인덱스가 p2인 행을 추출하는 두 가지 방법(loc, iloc)을 코드로 작성하시오.
 
-
+print(df.loc['p2'])
+print(df.iloc[1])
 
 # 6) 인덱스가 p3인 행을 삭제한 뒤, 그 결과를 확인하시오. (원본이 실제로 바뀌지 않도록, 즉 drop()의 기본 동작으로)
+
+imsi = df.drop('p3')
+print(imsi)
+
 # 7) 위 DataFrame에 아래와 같은 행(p5)을 추가하시오.
 #             상품명             가격     재고    총가격
 #  p5       USB메모리    15000     10    가격*재고
+
+df.loc['p5'] = ['USB메모리', '15000', '10', '150000']
+print(df)
