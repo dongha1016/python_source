@@ -7,55 +7,60 @@ import numpy as np
 from pandas import Series, DataFrame
 
 # Series : 일련의 객체를 담을 수 있는 1차원 배열과 같은 자료구조로 색인(index)을 갖는다.
-obj = pd.Series([3, 7, -5, 4])      # dtype: int64
-# obj = pd.Series([3, 7, -5, '4'])    # dtype: object
-# obj = pd.Series([3, 7, -5, '사'])   # 요소값은 object type 
+# [데이터 타입의 일관성]
+# 리스트와 달리 Series는 보통 하나의 데이터 타입으로 통일됩니다. 
+obj = pd.Series([3, 7, -5, 4])      # 정수들만 있으므로 dtype: int64
+# obj = pd.Series([3, 7, -5, '4'])    # 문자가 섞이면 전체가 object(문자열) 타입이 됨
+# obj = pd.Series([3, 7, -5, '사'])   
 # obj = pd.Series((3, 7, -5, 4))
 # obj = pd.Series({3, 7, -5, 4})  # set타입은 순서가 없기 때문에 불가 => TypeError: 'set' type is unordered
 
-
 print(obj, type(obj))   # dtype: int64 <class 'pandas.core.series.Series'>
 
+# [인덱스 커스텀 설정]
 obj2 = pd.Series([3, 7, -5, 4], index = ['a','b','c','d'])
 print(obj2)
+# 판다스 객체는 sum, std(표준편차) 등 통계 함수를 내장하고 있습니다.
 print(obj2.sum(), ' ', np.sum(obj2), ' ', sum(obj2))
 print(obj2.std())
 
-print(obj2.values)      # 리스트의 값
-print(obj2.index)       # 리스트의 인덱스
-print(obj2['a'])        # 리스트 인덱스 'a'번째 값 출력
-print((obj2[['a']]))    # a 인덱스와 값을 출력
+print(obj2.values)      # 실제 값들만 추출 (결과는 NumPy 배열 형태)
+print(obj2.index)       # 인덱스(색인) 정보만 추출
+print(obj2['a'])        # 라벨 인덱싱: 'a'라는 이름으로 값을 찾음
+print((obj2[['a']]))    # 팬시 인덱싱: 리스트 형태로 넘기면 시리즈 형태로 반환
 print(obj2[['a', 'b']]) 
-print(obj2['a':'c'])    # a에서부터 c 인덱스까지 인덱스와 값을 출력
-print(obj2[2])          # 인덱스 사용
-print(obj2.iloc[2])     
+print(obj2['a':'c'])    # 슬라이싱: 'a'부터 'c'까지 (loc 방식처럼 'c'를 포함함)
+print(obj2[2])          # 위치 기반 인덱싱 (0부터 시작하는 순서)
+print(obj2.iloc[2])     # iloc를 사용하여 명확하게 위치(정수)로 접근
 print(obj2[1:4])
 
-print(obj2[[2,1]])
-print(obj2.iloc[[2,1]]) # 2 index에서 1개씩
+print(obj2[[2,1]])      # 위치 번호로 여러 개 선택
+print(obj2.iloc[[2,1]]) # iloc 팬시 인덱싱
 
+# [멤버십 확인] 인덱스 명칭이 존재하는지 확인 (값 존재 여부가 아님)
 print('a' in obj2)      # True
 print('k' in obj2)      # False
 
 print('파이썬 dict 자료를 Series 객체로 생성')
+# 딕셔너리의 Key는 인덱스가 되고, Value는 데이터가 됩니다.
 names = {'mouse':5000, 'keyboard':25000, 'monitor':450000}
 print(names)
 obj3 = Series(names)
 print(obj3, ' ', type(obj3))   # <class 'pandas.core.series.Series'>
-obj3.index = ['마우스', '키보드', '모니터'] # 인덱스 값 변경
+# .index 속성에 리스트를 대입하여 인덱스 이름을 한꺼번에 바꿀 수 있습니다.
+obj3.index = ['마우스', '키보드', '모니터'] 
 print(obj3, ' ', type(obj3))
 
-obj3.name = "상품가격"          # 시리즈의 이름을 붙임("상품가격")
+# Series 객체 자체에 이름을 부여할 수 있으며, 이는 나중에 DataFrame의 컬럼명이 됩니다.
+obj3.name = "상품가격"          
 print(obj3)
 
 print('\nDataFrame 객체----------------------')
+# Series를 DataFrame으로 변환하면 1개의 컬럼을 가진 표가 됩니다.
 df = pd.DataFrame(obj3)
 print(df, ' ', type(df))
-#        상품가격
-# 마우스    5000
-# 키보드   25000
-# 모니터  450000   <class 'pandas.core.frame.DataFrame'>
 
+# [딕셔너리를 이용한 DataFrame 생성]
 data = {
     'irum':['홍길동', '한국인', '신기해', '공기밥', '한가해'],
     'juso':('역삼동', '신당동', '역삼동', '역삼동', '신사동'),
@@ -63,78 +68,72 @@ data = {
 }
 frame = pd.DataFrame(data)
 print(frame)
-#   irum juso  nai
-# 0  홍길동  역삼동   23
-# 1  한국인  신당동   25
-# 2  신기해  역삼동   33
-# 3  공기밥  역삼동   23
-# 4  한가해  신사동   35
 
-# Series가 모여 DataFrame을 구성하는 것
+# [컬럼 추출] DataFrame의 각 컬럼은 Series 객체입니다.
 print()
-print(frame['irum'])    # 동일 : print(frame.irum)
-print(type(frame.irum)) # Series
-print(DataFrame(data=data, columns=['juso', 'irum', 'nai']))    
-# column의 순서를 바꾼다
-#   juso irum  nai
-# 0  역삼동  홍길동   23
-# 1  신당동  한국인   25
-# 2  역삼동  신기해   33
-# 3  역삼동  공기밥   23
-# 4  신사동  한가해   35
+print(frame['irum'])    # 딕셔너리 방식으로 컬럼 추출
+print(type(frame.irum)) # 속성(Dot) 방식으로 추출 가능
 
-# NaN (결측치)
+# 생성 시 columns 인자를 주어 컬럼의 배치 순서를 결정할 수 있습니다.
+print(DataFrame(data=data, columns=['juso', 'irum', 'nai']))    
+
+# [NaN (결측치) 처리]
+# 데이터에 없는 컬럼('tel')을 지정하면 해당 컬럼은 NaN(Not a Number)으로 채워집니다.
 frame2 = pd.DataFrame(data, columns=['irum', 'nai', 'juso', 'tel']
                       , index=['a','b','c','d','e'])
-print(frame2)   # tel의 값은 입력한적이 없기 때문에 NaN
-frame2['tel'] = '111-1111'  # tel column에 전체 채워짐
+print(frame2)   
+frame2['tel'] = '111-1111'  # 스칼라 값을 대입하면 모든 행에 동일하게 적용(Broadcasting)
 print(frame2)
 
+# 특정 인덱스에만 값을 넣고 싶을 때는 Series를 만들어 대입합니다.
 val = pd.Series(['222-2222','333-3333','444-4444'], index = ['b', 'c', 'e'])
 print(val)
+# 인덱스가 일치하는 'b', 'c', 'e'만 값이 바뀌고 나머지는 NaN이 됩니다.
 frame2['tel'] = val
 print(frame2)
-#   irum  nai juso       tel
-# a  홍길동   23  역삼동       NaN
-# b  한국인   25  신당동  222-2222
-# c  신기해   33  역삼동  333-3333
-# d  공기밥   23  역삼동       NaN
-# e  한가해   35  신사동  444-4444
 
 print()
-print(frame2.T)         # Transpose => 전치
+print(frame2.T)         # .T : 행과 열을 뒤바꿈 (전치)
 
 print()
-print(frame2.values)    # 결과는 list type
-print(frame2.values[0, 1])  # 0행 1열
-print(frame2.values[0:2])   # 0행과 1행
+# .values를 쓰면 순수 데이터(NumPy 배열)만 추출됩니다.
+print(frame2.values)    
+print(frame2.values[0, 1])  # 2차원 배열 인덱싱으로 접근
+print(frame2.values[0:2])   
 
-frame3 = frame2.drop('d')           # d행 삭제
-frame3 = frame2.drop('d', axis = 0) # 위와 동일한 의미
+# [데이터 삭제] 
+# .drop()은 원본을 직접 수정하지 않고 삭제된 '복사본'을 반환합니다.
+frame3 = frame2.drop('d')           # 기본값 axis=0 (행 삭제)
+frame3 = frame2.drop('d', axis = 0) 
 print(frame3)
+# axis=1을 주면 컬럼(열)을 삭제합니다.
 frame4 = frame2.drop('tel', axis = 1)
 print(frame4)
 
 print('*'*50)
 print(frame2)
-print(frame2.sort_index(axis=0, ascending=False))    # 행단위로 descending sorting('e'부터 시작)
-print(frame2.sort_index(axis=1, ascending=True))     # 열단위로 ascending sorting('irum'부터 시작)
+# [정렬]
+print(frame2.sort_index(axis=0, ascending=False))    # 인덱스(행 이름) 기준 내림차순 정렬
+print(frame2.sort_index(axis=1, ascending=True))     # 컬럼(열 이름) 기준 오름차순 정렬
 
-print(frame2.rank(axis=0))      # 행 기준으로 순위(순서)를 적음
+# [순위 매기기]
+print(frame2.rank(axis=0))      # 각 컬럼 내에서 값의 크기에 따라 순위를 부여
 
-counts = frame2['juso'].value_counts()      # 주소의 value값의 개수를 새는 것
+# [빈도수 계산] 범주형 데이터의 개수를 파악할 때 유용합니다.
+counts = frame2['juso'].value_counts()  
 print(counts)
 
-# 문자열 자르기 
-
+# [문자열 데이터 가공] 
+# 리스트 컴프리헨션을 사용하여 문자열 컬럼의 내용을 분리(split)하고 재구성합니다.
 data = {
     'juso':['강남구 역삼동', '중구 신당동', '강남구 대치동'],
     'inwon':[23, 25, 15]
 }
 fr = pd.DataFrame(data)
 print(fr)
-result1 = Series([x.split()[0] for x in fr.juso])   # 공백을 기준으로 나눈다
+# 행정구역 정보를 공백 기준 앞부분(시/구)과 뒷부분(동)으로 나누어 새로운 Series 생성
+result1 = Series([x.split()[0] for x in fr.juso])   
 result2 = Series([x.split()[1] for x in fr.juso])
 print(result1)
 print(result2)
-print(result1.value_counts())
+print(result1.value_counts()) # 분리된 데이터의 빈도수 확인
