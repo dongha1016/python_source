@@ -7,7 +7,7 @@
 import numpy as np
 # suppress=True: 소수점을 지수 표현식(e+01 등) 대신 일반 실수로 출력
 # precision=6: 소수점 아래 6자리까지만 표시
-np.set_printoptions(suppress=True, precision=6)
+np.set_printoptions(suppress=True, precision=6) # => 일반 실수로 출력하되 6자리까지만
 
 def test():
     # 극단적으로 큰 값과 작은 값이 섞여 있는 배열 생성

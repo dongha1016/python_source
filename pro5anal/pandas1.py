@@ -2,6 +2,7 @@
 # 통합된 시계열 연산, 축약연산, 누락 데이터 처리, SQL, 시각화 ... 
 # 데이터 랭글링(Data Wrangling), 데이터 먼징(Data Munging)을 효율적으로 처리 가능 
 
+
 import pandas as pd
 import numpy as np
 from pandas import Series, DataFrame
@@ -17,7 +18,7 @@ obj = pd.Series([3, 7, -5, 4])      # 정수들만 있으므로 dtype: int64
 
 print(obj, type(obj))   # dtype: int64 <class 'pandas.core.series.Series'>
 
-# [인덱스 커스텀 설정]
+# [인덱스 커스텀 설정] => 쉽게 설명하면 index가 결국은 "행"이다
 obj2 = pd.Series([3, 7, -5, 4], index = ['a','b','c','d'])
 print(obj2)
 # 판다스 객체는 sum, std(표준편차) 등 통계 함수를 내장하고 있습니다.
@@ -27,7 +28,7 @@ print(obj2.std())
 print(obj2.values)      # 실제 값들만 추출 (결과는 NumPy 배열 형태)
 print(obj2.index)       # 인덱스(색인) 정보만 추출
 print(obj2['a'])        # 라벨 인덱싱: 'a'라는 이름으로 값을 찾음
-print((obj2[['a']]))    # 팬시 인덱싱: 리스트 형태로 넘기면 시리즈 형태로 반환
+print((obj2[['a']]))    # 팬시 인덱싱: 인덱스와 값을 반환 => 리스트 형태로 넘기면 시리즈 형태로 반환 
 print(obj2[['a', 'b']]) 
 print(obj2['a':'c'])    # 슬라이싱: 'a'부터 'c'까지 (loc 방식처럼 'c'를 포함함)
 print(obj2[2])          # 위치 기반 인덱싱 (0부터 시작하는 순서)
@@ -55,6 +56,9 @@ print(obj3, ' ', type(obj3))
 obj3.name = "상품가격"          
 print(obj3)
 
+
+# Series는 인덱스를 가진 하나의 1차원 배열
+# DataFrame은 이러한 Series가 모인 것
 print('\nDataFrame 객체----------------------')
 # Series를 DataFrame으로 변환하면 1개의 컬럼을 가진 표가 됩니다.
 df = pd.DataFrame(obj3)
@@ -80,7 +84,7 @@ print(DataFrame(data=data, columns=['juso', 'irum', 'nai']))
 # [NaN (결측치) 처리]
 # 데이터에 없는 컬럼('tel')을 지정하면 해당 컬럼은 NaN(Not a Number)으로 채워집니다.
 frame2 = pd.DataFrame(data, columns=['irum', 'nai', 'juso', 'tel']
-                      , index=['a','b','c','d','e'])
+                    , index=['a','b','c','d','e'])
 print(frame2)   
 frame2['tel'] = '111-1111'  # 스칼라 값을 대입하면 모든 행에 동일하게 적용(Broadcasting)
 print(frame2)

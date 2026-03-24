@@ -85,8 +85,8 @@ print()
 
 # 1차원 배열 분할: 데이터를 지정한 개수만큼 등분합니다.
 mbc, sbs = np.split(kbs, 2)
-print(mbc)
-print(sbs)
+print(mbc)      # [1 2 3]
+print(sbs)      # [4 5 6]
 print()
 
 # 2차원 배열 분할
@@ -108,7 +108,7 @@ li = np.array([1,2,3,4,5,6,7])
 
 # [복원 추출] 한번 뽑힌 값도 주머니에 다시 넣으므로 또 뽑힐 수 있습니다.
 # randint를 이용해 인덱스를 무작위로 생성하여 추출합니다.
-for _ in range(5):
+for _ in range(5):      # 값은 필요 없고 반복의 의미
     print(li[np.random.randint(0, len(li)-1)], end = " ")
 print()
 

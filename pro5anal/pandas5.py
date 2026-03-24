@@ -55,6 +55,8 @@ print("============자리수로 읽기(FWF:Fixed-Width Formatted lines)=========
 # 구분자 없이 데이터의 '길이'가 정해진 파일(예: 과거 금융 데이터 등)을 읽을 때 사용합니다.
 df = pd.read_fwf('https://raw.githubusercontent.com/pykwon/python/refs/heads/master/testdata_utf8/data_fwt.txt', 
                 header=0, widths=(10,3,5), names=['date', 'name', 'price'], encoding = 'utf8')
+# header = 0 과 header = None의 차이
+# 1번은 첫줄은 제목이다! 2번은 첫줄부터가 진짜 데이터임!
 print(df)
 print(df.iloc[:,0])
 print(df['date'])
@@ -101,6 +103,7 @@ start_chunk_total = time.time()
 
 # chunksize를 설정하면 데이터프레임이 아닌 'TextFileReader'라는 반복자(Iterator)를 반환합니다.
 for i, chunk in enumerate(pd.read_csv(csv_fname, chunksize=chunk_size)):
+    # 파일 전체를 불러오는데 1000씩 나눠서 불러올게
     start_chunk = time.time()
     
     # 현재 읽어온 뭉치(chunk)에서 첫 번째 데이터 확인

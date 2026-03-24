@@ -42,7 +42,7 @@ print(pd.Series(result_cut2).value_counts())
 print('\nagg함수 : 범주의 그룹별 연산==============')
 
 # groupby: 특정 기준(여기서는 범주화된 구간)으로 데이터를 그룹 묶음
-group_col = datas.groupby(result_cut2, observed=True)  
+group_col = datas.groupby(result_cut2, observed=True)  # observed => 살제 값이 존재하는 그룹만 골라서 보여줌
 # .agg(): 여러 개의 통계 함수를 리스트 형태로 전달하여 한꺼번에 계산함
 print(group_col.agg(['count', 'mean', 'std', 'min'])) 
 
