@@ -3,58 +3,94 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-plt.rc('font', family='malgun gothic')  #AppleGothic => 한글 안깨지게
-plt.rcParams['axes.unicode_minus'] = False # 음수 표현 깨짐 방지
 
-# x = ["서울", "인천", "수원"]  리스트 => 0, 1, 2
+# [환경 설정] 한글 폰트 설정 (Windows: Malgun Gothic / Mac: AppleGothic)
+plt.rc('font', family='malgun gothic')  
+# [환경 설정] 마이너스 기호('-')가 깨지는 현상 방지
+plt.rcParams['axes.unicode_minus'] = False 
 
-x = ("서울", "인천", "수원")    # 튜플
-# x = {"서울", "인천", "수원"}    # Set => 불가 => 순서가 없기 때문에 인덱싱할 수 없기 때문에(중복을 배제하는 역할만 가능)
+# --- 1. 기본적인 선 그래프와 축 설정 ---
+x = ("서울", "인천", "수원")    # 튜플 (리스트도 가능하나 Set은 순서가 없어 불가)
 y = [5, 3, 7]
-plt.xlim([-1,3])
-plt.ylim([0,10])
-# tick 설정 : y축의 라벨을 인위적으로 표시
+
+# plt.xlim, plt.ylim: x축과 y축의 표시 범위 [최소, 최대] 지정
+plt.xlim([-1, 3])
+plt.ylim([0, 10])
+
+# plt.yticks: y축의 눈금(Tick)을 인위적으로 설정 (0부터 10까지 3 간격)
 plt.yticks(list(range(0, 11, 3)))
+
 plt.plot(x, y)
 plt.show()
 
+# --- 2. 데이터 값 표시 (plt.text) ---
 data = np.arange(1, 11, 2)
-plt.plot(data)  # x축의 구간은 자동 설정
-x = [0,1,2,3,4]
+plt.plot(data)  # x축을 생략하면 데이터의 인덱스(0, 1, 2...)가 자동 설정됨
 
+x = [0, 1, 2, 3, 4]
 for a, b in zip(x, data):
+    # plt.text(x, y, text): 그래프 상의 특정 좌표에 텍스트 출력
     plt.text(a, b, str(b))
 plt.show()
 
+# --- 3. 스타일 커스터마이징 (포맷 문자열) ---
 x = np.arange(10)
 y = np.sin(x)
-print(x, y)
-# plt.plot(x,y)
-# plt.plot(x,y,'bo')  # blue 와 동그라미
+# 'go--': 색상(green), 마커(circle), 선스타일(dashed)을 한 번에 지정
+# linewidth: 선 두께, markersize: 마커 크기
 plt.plot(x, y, 'go--', linewidth=2, markersize=12)
 plt.show()
 
-# hold : 복수의 plot으로 여러개의 차트를 겹쳐 그림
+# --- 4. 복합 그래프와 레이아웃 ---
 x = np.arange(0, np.pi * 3, 0.1)
-
-print(x)
 y_sin = np.sin(x)
 y_cos = np.cos(x)
-plt.figure(figsize=(10,5))      # 그래프 전체 크기(w, h)
-plt.plot(x, y_sin, 'r')         # 선
-plt.scatter(x, y_cos)           # 산점도
+
+# plt.figure: 그래프 도화지의 전체 크기(가로, 세로 인치) 설정
+plt.figure(figsize=(10, 5))    
+plt.plot(x, y_sin, 'r')         # 선 그래프 (red)
+plt.scatter(x, y_cos)           # 산점도 (점 그래프)
+
 plt.xlabel('x 축')
 plt.ylabel('y 축')
 plt.title('sine & cosine')
-plt.legend(['sine', 'cosine'])    # 범례
+# plt.legend: 범례 표시 (데이터의 이름표 역할)
+plt.legend(['sine', 'cosine'])    
 plt.show()
 
+# --- 5. 서브플롯 (Subplot) 활용 ---
 print("===========subplot===========")
-# subplot : 하나의 Figure를 여러개의 Axes(plot)으로 나누기
-plt.subplot(2, 1, 1)    # 1행
+# plt.subplot(행, 열, 순서): 하나의 Figure를 나누어 여러 그래프를 그림
+plt.subplot(2, 1, 1)    # 2행 1열의 첫 번째
 plt.plot(x, y_sin)
 plt.title('sine')
-plt.subplot(2, 1, 2)    # 2행
+
+plt.subplot(2, 1, 2)    # 2행 1열의 두 번째
 plt.plot(x, y_cos)
 plt.title('cosine')
 plt.show()
+
+# --- 6. 그리드 설정 및 파일 저장 ---
+irum = ['a', 'b', 'c', 'd', 'e']
+kor = [80, 50, 70, 70, 90]
+eng = [60, 70, 80, 90, 100]
+
+plt.plot(irum, kor, 'ro-')
+plt.plot(irum, eng, 'bo--')
+plt.ylim([50, 100])
+plt.title('시험 점수')
+# loc=4: 범례 위치 지정 (4는 우측 하단/lower right)
+plt.legend(['국어', '영어'], loc=4)
+# plt.grid: 보조선(격자) 표시
+plt.grid(True)
+
+# plt.gcf(): 현재 생성된 Figure(도화지) 객체를 가져옴
+fig = plt.gcf()
+plt.show()
+
+# fig.savefig: 생성된 그래프를 이미지 파일로 저장
+fig.savefig('plot.png')
+
+from matplotlib.pyplot import imread
+img = imread('plot1.png')
+plt.imshow(img)
