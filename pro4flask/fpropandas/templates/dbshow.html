@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DB 조회 결과</title>
+</head>
+<body>
+    <h2>사내 인사 자료 분석 결과</h2>
+
+    <h3>1) 직원 정보 (부서/이름순 정렬)</h3>
+    {{ jikwondata | safe }}
+
+    <h3>2) 부서/직급별 연봉 통계</h3>
+    {{ statsdata | safe }}
+
+    <h3>3) 부서별 연봉합/평균 그래프</h3>
+    <img src="{{ graph_img }}" alt="그래프">
+
+    <h3>4) 성별, 직급별 빈도표</h3>
+    {{ graph_num4 | safe }}
+
+    <h3>5) 부서별 최고 연봉자</h3>
+    {{ top_pay_data | safe }}
+
+    <h3>6) 부서별 직원 비율</h3>
+    <p><strong>{{ total_info }}</strong></p>
+    {{ ratio_data | safe }}
+
+    <br>
+    <a href="/">메인페이지로 돌아가기</a>
+</body>
+</html>
