@@ -60,6 +60,7 @@ def dbshow():
         stats_df = (
             df.groupby("직급")["연봉"]
             .agg(
+                
                 평균 = "mean",
                 표준편차 = lambda x:x.std(ddof=0),
                 인원수 = "count"
